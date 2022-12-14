@@ -11,10 +11,10 @@
     heightStore,
     nodeIdSelected,
     movementStore,
-    snapgrid, 
-    snapResize,
+    snapgrid,
+    snapResize
   } = findOrCreateStore(key);
-  $: shouldMove = moving && $movementStore;
+  $: shouldMove = moving && $movementStore && false;
   // $nodeSelected is a store boolean that lets GraphView component know if ANY node is selected
   // moving local boolean specific to node selected, to change position of individual node once selected
   let moving = false;
@@ -35,7 +35,7 @@
       // If user sets snap attribute as true inside Svelvet
       node.position.x = Math.floor(node.position.x / $snapResize) * $snapResize;
       node.position.y = Math.floor(node.position.y / $snapResize) * $snapResize;
-      // Invoking on mouseMove so that edges update relation to node immediately upon snap 
+      // Invoking on mouseMove so that edges update relation to node immediately upon snap
       onMouseMove(e, node.id);
     }
     moving = false;
