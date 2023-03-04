@@ -2,19 +2,7 @@
   import { findOrCreateStore } from '../stores/store';
   export let node;
   export let key;
-  const {
-    onMouseMove,
-    onNodeClick,
-    onTouchMove,
-    nodeSelected,
-    widthStore,
-    heightStore,
-    nodeIdSelected,
-    movementStore,
-    snapgrid,
-    snapResize
-  } = findOrCreateStore(key);
-  $: shouldMove = moving && $movementStore && false;
+  const { onMouseMove, onNodeClick, nodeSelected, nodeIdSelected } = findOrCreateStore(key);
   // $nodeSelected is a store boolean that lets GraphView component know if ANY node is selected
   // moving local boolean specific to node selected, to change position of individual node once selected
   let moving = false;
@@ -22,25 +10,11 @@
 </script>
 
 <svelte:window
-  on:mousemove={(e) => {
-    e.preventDefault();
-    if (shouldMove) {
-      onMouseMove(e, node.id);
-      moved = true;
-    }
-  }}
   on:mouseup={(e) => {
     // Note: mouseup moved outside of div to prevent issue where node becomes magnetized to cursor after leaving visible boundaries, github issues #120 & #125
-    if ($snapgrid) {
-      // If user sets snap attribute as true inside Svelvet
-      node.position.x = Math.floor(node.position.x / $snapResize) * $snapResize;
-      node.position.y = Math.floor(node.position.y / $snapResize) * $snapResize;
-      // Invoking on mouseMove so that edges update relation to node immediately upon snap
-      onMouseMove(e, node.id);
-    }
     moving = false;
     $nodeSelected = false;
-    if (!moved && node.id == $nodeIdSelected) {
+    if (node.id == $nodeIdSelected) {
       onNodeClick(e, node.id);
     }
     moved = false;
@@ -48,23 +22,13 @@
 />
 
 <div
-  on:touchmove={(e) => {
-    if (shouldMove) {
-      onTouchMove(e, node.id);
-    }
-  }}
   on:touchstart={(e) => {
-    e.preventDefault();
-    moving = true;
     $nodeSelected = true;
   }}
   on:touchend={(e) => {
-    moving = false;
     $nodeSelected = false;
   }}
   on:mousedown={(e) => {
-    e.preventDefault();
-    moving = true;
     $nodeIdSelected = node.id;
     $nodeSelected = true;
   }}
