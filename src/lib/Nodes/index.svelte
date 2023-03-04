@@ -1,8 +1,8 @@
 <script lang="ts">
   import { findOrCreateStore } from '$lib/stores/store';
-    import { Position } from '$lib/types';
+  import { Position } from '$lib/types';
   import type { Node } from '$lib/types/types';
-    import { logDOM } from '@testing-library/svelte';
+  import { logDOM } from '@testing-library/svelte';
 
   export let node: Node;
   export let key: string;
@@ -18,7 +18,7 @@
     heightStore
   } = findOrCreateStore(key);
 
-  $: shouldMove = moving && $movementStore;
+  $: shouldMove = moving && $movementStore && false;
 
   // $nodeSelected is a store boolean that lets GraphView component know if ANY node is selected
   // moving local boolean specific to node selected, to change position of individual node once selected
@@ -28,7 +28,7 @@
 
 <svelte:window
   on:mousemove={(e) => {
-    console.log(e.clientX)
+    console.log(e.clientX);
     e.preventDefault();
     if (shouldMove) {
       onMouseMove(e, node.id);
@@ -39,7 +39,6 @@
         $nodeSelected = false;
       }
     }
-   
   }}
 />
 
@@ -83,7 +82,7 @@
     color: {node.textColor};"
   id="svelvet-{node.id}"
 >
-<!-- This executes if node.image is present without node.label -->
+  <!-- This executes if node.image is present without node.label -->
   {#if node.image}
     <img
       src={node.src}

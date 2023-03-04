@@ -1,6 +1,6 @@
 {
   "name": "@windmill-labs/svelvet",
-  "version": "4.0.0",
+  "version": "4.0.2",
   "description": "A lightweight Svelte component library for building interactive node-based flow diagrams",
   "keywords": [
     "svelte",

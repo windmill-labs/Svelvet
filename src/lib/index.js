@@ -1,4 +1,4 @@
-import Svelvet from 'svelvet';
+import Svelvet from '@windmill-labs/svelvet';
 export default Svelvet;
 
 // export * from './types';
